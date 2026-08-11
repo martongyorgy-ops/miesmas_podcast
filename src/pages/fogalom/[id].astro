@@ -1,0 +1,48 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import categories from '../../data/categories.json';
+
+export async function getStaticPaths() {
+  const concepts = await getCollection('concepts');
+  return concepts.map((c) => ({
+    params: { id: c.data.id },
+    props: { c },
+  }));
+}
+
+const { c } = Astro.props;
+const { Content } = await render(c);
+
+const episodes = await getCollection('episodes');
+const epById = Object.fromEntries(episodes.map((e) => [e.data.id, e]));
+
+function catName(key: string) {
+  return (categories as Record<string, {name: string}>)[key]?.name ?? key;
+}
+---
+<Base title={c.data.name} description={`${c.data.name} — MI és más TudásTér`}>
+  <div class="wrap">
+    <section>
+      <p class="eyebrow">Fogalom · {catName(c.data.cat)}</p>
+      <h1>{c.data.name}</h1>
+      <div class="lead"><Content /></div>
+
+      <h3>Elhangzott ezekben az adásokban</h3>
+      <div class="guest-grid">
+        {c.data.eps.map((e: {ep: string; t: string}) => {
+          const ep = epById[e.ep];
+          if (!ep) return null;
+          return (
+            <a href={`/epizod/${ep.data.id}/`} class="guest-card">
+              <span class="guest-name">{ep.data.guest}</span>
+              <span class="guest-role">{ep.data.role}{e.t !== '—' ? ` · ${e.t}` : ''}</span>
+            </a>
+          );
+        })}
+      </div>
+
+      <a href="/tudaster/" class="btn">Vissza a TudásTérhez</a>
+    </section>
+  </div>
+</Base>

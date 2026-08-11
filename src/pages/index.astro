@@ -1,0 +1,94 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import categories from '../data/categories.json';
+
+const episodes = await getCollection('episodes');
+const sorted = episodes.sort((a, b) => a.data.order - b.data.order);
+const latest = sorted[0];
+const recent4 = sorted.slice(0, 4);
+
+function ytEmbedUrl(url: string) {
+  const match = url.match(/[?&]v=([^&]+)/) || url.match(/youtu\.be\/([^?&]+)/);
+  const id = match ? match[1] : '';
+  return `https://www.youtube-nocookie.com/embed/${id}`;
+}
+function catName(key: string) {
+  return (categories as Record<string, {name: string}>)[key]?.name ?? key;
+}
+const { Content } = await render(latest);
+---
+<Base title="Főoldal">
+
+  <div class="wrap">
+
+    <section id="adas">
+      <p class="eyebrow">Legújabb adás</p>
+      <div class="audio-frame" style="height:92px; display:flex; align-items:center; justify-content:center; font-weight:600;">
+        🎧 Spotify-lejátszó — hallgasd itt (link hozzáadásra vár)
+      </div>
+      <div class="video-frame">
+        <iframe
+          src={ytEmbedUrl(latest.data.url)}
+          title={`${latest.data.guest} — MI és más`}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+      <div class="ep-meta">
+        {latest.data.cats.map((c: string) => <span class="badge">{catName(c)}</span>)}
+      </div>
+      <h1>{latest.data.guest} — {latest.data.role}</h1>
+      <div class="lead"><Content /></div>
+      <a href={latest.data.url} class="btn" target="_blank" rel="noopener">Megnézem YouTube-on</a>
+    </section>
+
+    <section id="epizodok">
+      <p class="eyebrow">Archívum</p>
+      <h2>Epizódok és vendégek</h2>
+      <p class="lead">A műsor eddigi adásai, időrendben vagy vendég szerint böngészve.</p>
+      <p style="font-size:14.5px;color:var(--ink-faint);margin-top:-10px;">Alább a legutóbbi 4 adás — a teljes archívum az „Az összes epizód” gombra kattintva érhető el.</p>
+
+      <div class="guest-grid">
+        {recent4.map((ep) => (
+          <a href={`/epizod/${ep.data.id}/`} class="guest-card">
+            {ep.data.date && <span class="guest-date">{new Date(ep.data.date).toLocaleDateString('hu-HU', {year:'numeric', month:'long', day:'numeric'})}</span>}
+            <span class="guest-name">{ep.data.guest}</span>
+            <span class="guest-role">{ep.data.role}</span>
+          </a>
+        ))}
+      </div>
+      <a href="/epizodok/" class="btn">Az összes epizód</a>
+    </section>
+
+    <section id="aktualis">
+      <p class="eyebrow">Aktualitások</p>
+      <h2>Mi történik éppen</h2>
+      <div class="news-item">
+        <span class="news-date">—</span>
+        <p style="margin:0;">Ide kerülnek majd az aktuális bejegyzések — küldd el a szöveget, és bedolgozom.</p>
+      </div>
+    </section>
+
+    <section id="tudaster">
+      <p class="eyebrow">A műsor tudásbázisa</p>
+      <h2>TudásTér</h2>
+      <p class="lead">Nem lista, hanem fogalomgyűjtemény — tematizálva, kereshetően, epizódokon átívelve.</p>
+      <a href="/tudaster/" class="btn">Tovább a teljes TudásTérre</a>
+    </section>
+
+    <section id="rolam">
+      <p class="eyebrow">Rólam</p>
+      <div class="profile">
+        <img src="/images/marton-gyorgy.jpg" alt="Márton György portréfotója" width="180" height="180">
+        <div class="profile-text">
+          <h2 style="margin-bottom:10px;">Márton György</h2>
+          <p>Márton György vagyok, a „MI és más — közérthetően a mesterséges intelligenciáról” műsor és podcast gazdája. Valamikor mérnöknek készültem, de a munkám, hivatásom szerint újságíró lettem és vagyok ma is.</p>
+          <a href="/rolam/">Teljes életrajz</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</Base>

@@ -1,0 +1,67 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import categories from '../../data/categories.json';
+
+export async function getStaticPaths() {
+  const episodes = await getCollection('episodes');
+  return episodes.map((ep) => ({
+    params: { id: ep.data.id },
+    props: { ep },
+  }));
+}
+
+const { ep } = Astro.props;
+const { Content } = await render(ep);
+
+const allConcepts = await getCollection('concepts');
+const relatedConcepts = allConcepts.filter((c) => ep.data.concepts.includes(c.data.id));
+
+function ytEmbedUrl(url: string) {
+  const match = url.match(/[?&]v=([^&]+)/) || url.match(/youtu\.be\/([^?&]+)/);
+  const id = match ? match[1] : '';
+  return `https://www.youtube-nocookie.com/embed/${id}`;
+}
+function catName(key: string) {
+  return (categories as Record<string, {name: string}>)[key]?.name ?? key;
+}
+---
+<Base title={ep.data.guest} description={`${ep.data.guest} — ${ep.data.role} — MI és más`}>
+  <div class="wrap">
+    <section>
+      <p class="eyebrow">Epizód</p>
+      <div class="ep-meta">
+        {ep.data.cats.map((c: string) => <span class="badge">{catName(c)}</span>)}
+      </div>
+      <h1>{ep.data.guest}</h1>
+      <p class="lead">{ep.data.role}</p>
+      {ep.data.date && <p style="color:var(--amber); font-weight:600; margin-top:-12px;">{new Date(ep.data.date).toLocaleDateString('hu-HU', {year:'numeric', month:'long', day:'numeric'})}</p>}
+
+      <div class="video-frame">
+        <iframe
+          src={ytEmbedUrl(ep.data.url)}
+          title={`${ep.data.guest} — MI és más`}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+      <a href={ep.data.url} class="btn" target="_blank" rel="noopener">Megnézem YouTube-on</a>
+
+      <div class="lead" style="margin-top:28px;"><Content /></div>
+
+      <p class="quote-block">„{ep.data.quote}”</p>
+
+      {relatedConcepts.length > 0 && (
+        <>
+          <h3>Kapcsolódó fogalmak</h3>
+          <div>
+            {relatedConcepts.map((c) => (
+              <a href={`/fogalom/${c.data.id}/`} class="chip">{c.data.name}</a>
+            ))}
+          </div>
+        </>
+      )}
+    </section>
+  </div>
+</Base>

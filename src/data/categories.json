@@ -1,0 +1,44 @@
+{
+  "oktatas": {
+    "name": "Oktatás",
+    "color": "#8A5A20",
+    "bg": "#F0DCC0",
+    "freq": "89.4"
+  },
+  "egeszseg": {
+    "name": "Egészségügy",
+    "color": "#2F6F62",
+    "bg": "#DCEAE5",
+    "freq": "92.1"
+  },
+  "hr": {
+    "name": "HR / munkaerőpiac",
+    "color": "#6A4A9C",
+    "bg": "#E4DCF2",
+    "freq": "95.8"
+  },
+  "jog": {
+    "name": "Jog és szabályozás",
+    "color": "#9C3B3B",
+    "bg": "#F2DCDC",
+    "freq": "98.6"
+  },
+  "kutatas": {
+    "name": "Innováció / kutatás",
+    "color": "#2F6F62",
+    "bg": "#DCEAE5",
+    "freq": "101.3"
+  },
+  "altalanos": {
+    "name": "MI általában",
+    "color": "#C97A2B",
+    "bg": "#F0DCC0",
+    "freq": "104.7"
+  },
+  "hosszu": {
+    "name": "Egyedi témák",
+    "color": "#51605A",
+    "bg": "#E3E0D6",
+    "freq": "107.9"
+  }
+}

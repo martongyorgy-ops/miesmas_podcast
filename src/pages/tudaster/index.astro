@@ -1,0 +1,100 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import categories from '../../data/categories.json';
+
+const concepts = await getCollection('concepts');
+const episodes = await getCollection('episodes');
+const epById = Object.fromEntries(episodes.map((e) => [e.data.id, e.data]));
+
+const conceptsData = concepts
+  .map((c) => ({
+    id: c.data.id,
+    name: c.data.name,
+    cat: c.data.cat,
+    def: c.body.trim(),
+    eps: c.data.eps.map((e) => ({
+      ep: e.ep,
+      t: e.t,
+      guest: epById[e.ep]?.guest ?? e.ep,
+    })),
+  }))
+  .sort((a, b) => a.name.localeCompare(b.name, 'hu'));
+
+const catEntries = Object.entries(categories as Record<string, {name: string}>);
+---
+<Base title="TudásTér" description="Fogalomgyűjtemény a MI és más adásaiból — tematizálva, kereshetően, epizódokon átívelve.">
+  <div class="wrap">
+    <section>
+      <p class="eyebrow">A műsor tudásbázisa</p>
+      <h1>TudásTér</h1>
+      <p class="lead">Nem lista, hanem fogalomgyűjtemény — tematizálva, kereshetően, epizódokon átívelve.</p>
+
+      <div class="search-row" style="margin:24px 0 6px; position:relative;">
+        <label for="search" style="display:block; font-weight:600; margin-bottom:8px;">Keresés a fogalomtárban</label>
+        <input id="search" type="text" placeholder="pl. Shadow AI, hallucináció, kvantum…"
+          style="width:100%; padding:14px 16px; border-radius:10px; border:1px solid var(--line-strong); background:var(--paper-raised); font-size:16px; color:var(--ink);">
+      </div>
+      <p id="resultCount" style="font-size:14.5px; color:var(--ink-faint);" aria-live="polite"></p>
+
+      <nav class="topic-nav" aria-label="Témák szerinti szűrés" id="topicNav">
+        <button class="topic-pill active" data-cat="all" type="button">Összes</button>
+        {catEntries.map(([key, val]) => (
+          <button class="topic-pill" data-cat={key} type="button">{val.name}</button>
+        ))}
+      </nav>
+
+      <div class="concept-grid" id="conceptGrid"></div>
+    </section>
+  </div>
+
+  <script type="application/json" id="conceptData" set:html={JSON.stringify(conceptsData)}></script>
+  <script is:inline>
+    const data = JSON.parse(document.getElementById('conceptData').textContent);
+    let activeCat = 'all';
+    let query = '';
+
+    function render() {
+      const q = query.toLowerCase();
+      const filtered = data.filter((c) => {
+        const catOk = activeCat === 'all' || c.cat === activeCat;
+        const qOk = !q || c.name.toLowerCase().includes(q) || c.def.toLowerCase().includes(q);
+        return catOk && qOk;
+      });
+
+      document.getElementById('resultCount').textContent = query
+        ? `${filtered.length} találat erre: "${query}"`
+        : `${filtered.length} fogalom`;
+
+      const grid = document.getElementById('conceptGrid');
+      if (filtered.length === 0) {
+        grid.innerHTML = '<p>Nincs találat ebben a kategóriában — próbálj másik szűrést, vagy töröld a keresést.</p>';
+        return;
+      }
+      grid.innerHTML = filtered.map((c) => {
+        const epsHtml = c.eps.map((e) => `<span class="chip">${e.guest}${e.t !== '—' ? ' · ' + e.t : ''}</span>`).join('');
+        return `<a href="/fogalom/${c.id}/" class="concept-card">
+          <h3>${c.name}</h3>
+          <p>${c.def.length > 160 ? c.def.slice(0, 160) + '…' : c.def}</p>
+          <div>${epsHtml}</div>
+        </a>`;
+      }).join('');
+    }
+
+    document.getElementById('search').addEventListener('input', (e) => {
+      query = e.target.value;
+      render();
+    });
+
+    document.querySelectorAll('.topic-pill').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.topic-pill').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCat = btn.dataset.cat;
+        render();
+      });
+    });
+
+    render();
+  </script>
+</Base>
