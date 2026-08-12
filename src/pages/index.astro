@@ -17,6 +17,11 @@ function catName(key: string) {
   return (categories as Record<string, {name: string}>)[key]?.name ?? key;
 }
 const { Content } = await render(latest);
+function spotifyEmbedUrl(url) {
+  const match = url.match(/episode\/([a-zA-Z0-9]+)/);
+  const id = match ? match[1] : '';
+  return `https://open.spotify.com/embed/episode/${id}?utm_source=generator`;
+}
 ---
 <Base title="Főoldal">
 
@@ -24,9 +29,23 @@ const { Content } = await render(latest);
 
     <section id="adas">
       <p class="eyebrow">Legújabb adás</p>
-      <div class="audio-frame" style="height:92px; display:flex; align-items:center; justify-content:center; font-weight:600;">
-        🎧 Spotify-lejátszó — hallgasd itt (link hozzáadásra vár)
-      </div>
+      {latest.data.spotify ? (
+        <div class="audio-frame" style="height:152px;">
+          <iframe
+            src={spotifyEmbedUrl(latest.data.spotify)}
+            width="100%"
+            height="152"
+            frameborder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            title={`${latest.data.guest} — Spotify`}
+          ></iframe>
+        </div>
+      ) : (
+        <div class="audio-frame" style="height:92px; display:flex; align-items:center; justify-content:center; font-weight:600;">
+          🎧 Spotify-lejátszó — hallgasd itt (link hozzáadásra vár)
+        </div>
+      )}
       <div class="video-frame">
         <iframe
           src={ytEmbedUrl(latest.data.url)}
