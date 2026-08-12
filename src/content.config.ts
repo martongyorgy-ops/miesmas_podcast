@@ -13,6 +13,7 @@ const episodes = defineCollection({
     concepts: z.array(z.string()),
     date: z.string().optional(), // ISO date, optional until real dates are added per episode
     order: z.number(), // temporary processing-order index; replace with real dates once known
+    spotify: z.string().url().optional(), // Spotify episode link, ha van
   }),
 });
 
