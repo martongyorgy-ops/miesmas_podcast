@@ -4,14 +4,13 @@ import { getCollection } from 'astro:content';
 import categories from '../../data/categories.json';
 
 const episodes = await getCollection('episodes');
-function compareEpisodes(a, b) {
-  const aDate = a.data.date ? new Date(a.data.date).getTime() : null;
-  const bDate = b.data.date ? new Date(b.data.date).getTime() : null;
-  if (aDate !== null && bDate !== null) return bDate - aDate;
-  if (aDate !== null && bDate === null) return -1;
-  if (aDate === null && bDate !== null) return 1;
-  return a.data.order - b.data.order;
+function sortableName(guest: string) {
+  return guest.replace(/^Dr\.?\s+/i, '').trim();
 }
+function compareEpisodesAlpha(a: any, b: any) {
+  return sortableName(a.data.guest).localeCompare(sortableName(b.data.guest), 'hu');
+}
+const sorted = episodes.sort(compareEpisodesAlpha);
 const sorted = episodes.sort(compareEpisodes);
 
 function catName(key: string) {
