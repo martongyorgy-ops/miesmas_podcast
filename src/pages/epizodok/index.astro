@@ -23,8 +23,7 @@ function catName(key: string) {
     <section>
       <p class="eyebrow">Archívum</p>
       <h1>Az összes epizód</h1>
-      <p class="lead">{sorted.length} feldolgozott adás — legújabb elöl.</p>
-
+      
       <div class="guest-grid">
         {sorted.map((ep) => (
           <a href={`/epizod/${ep.data.id}/`} class="guest-card">
