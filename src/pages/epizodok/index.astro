@@ -11,8 +11,6 @@ function compareEpisodesAlpha(a: any, b: any) {
   return sortableName(a.data.guest).localeCompare(sortableName(b.data.guest), 'hu');
 }
 const sorted = episodes.sort(compareEpisodesAlpha);
-const sorted = episodes.sort(compareEpisodes);
-
 function catName(key: string) {
   return (categories as Record<string, {name: string}>)[key]?.name ?? key;
 }
