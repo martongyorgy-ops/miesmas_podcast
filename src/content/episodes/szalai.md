@@ -3,7 +3,7 @@ id: "szalai"
 guest: "Szalai Sándor"
 role: "E.ON Hungária, KKV ügyfelekért felelős energiaértékesítési vezető"
 cats: ["hosszu"]
-url: "https://www.youtube.com/watch?v=I0V3rvtlUAQ"
+url: "https://www.youtube.com/watch?v=rfYPULLnp9Q"
 quote: "A villamosenergia nem tárolható — ezért kell nagyon pontosan látni az időjárás alakulását a kereslet-kínálat egyeztetéséhez."
 concepts: ["prediktiv-karbantartas"]
 order: 23
