@@ -3,7 +3,7 @@ id: "turny"
 guest: "Turny Ákos"
 role: "BCG, GenAI globális transzformációs igazgató"
 cats: ["kutatas", "hr"]
-url: "https://www.youtube.com/watch?v=kfMlNGFZrlQ"
+url: "https://www.youtube.com/watch?v=9RVrmcGZ_v4"
 quote: "Hiába választok nagyon jó modellt, ha a szervezet nem tudja ezt kulturálisan magáévá tenni, ez mindig egy izolált pilot marad."
 concepts: ["szazhusz-hetven", "kepessegek-ai-koraban"]
 order: 25
