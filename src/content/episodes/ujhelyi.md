@@ -3,7 +3,7 @@ id: "ujhelyi"
 guest: "Dr. Újhelyi Dávid"
 role: "egyetemi adjunktus, Pázmány Péter Katolikus Egyetem, Polgári Jogi Tanszék"
 cats: ["jog", "oktatas"]
-url: "https://www.youtube.com/watch?v=rfYPULLnp9Q"
+url: "https://www.youtube.com/watch?v=kfMlNGFZrlQ"
 quote: "Az AI még csak nem is jogi személy — egy Kft se tud verset írni, de az AI még csak nem is Kft."
 concepts: ["ai-szerzoseg"]
 order: 24
