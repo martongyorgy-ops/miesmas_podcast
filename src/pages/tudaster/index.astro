@@ -22,6 +22,13 @@ const conceptsData = concepts
   .sort((a, b) => a.name.localeCompare(b.name, 'hu'));
 
 const catEntries = Object.entries(categories as Record<string, {name: string}>);
+
+const episodesData = episodes.map((e) => ({
+  id: e.data.id,
+  guest: e.data.guest,
+  role: e.data.role,
+  cat: e.data.cats[0] ?? '',
+}));
 ---
 <Base title="TudásTér" description="Fogalomgyűjtemény a MI és más adásaiból — tematizálva, kereshetően, epizódokon átívelve.">
   <div class="wrap">
@@ -44,13 +51,17 @@ const catEntries = Object.entries(categories as Record<string, {name: string}>);
         ))}
       </nav>
 
+      <div id="episodeResults"></div>
+      <h3 id="conceptsHeading" style="display:none;">Fogalmak</h3>
       <div class="concept-grid" id="conceptGrid"></div>
     </section>
   </div>
 
   <script type="application/json" id="conceptData" set:html={JSON.stringify(conceptsData)}></script>
+  <script type="application/json" id="episodeData" set:html={JSON.stringify(episodesData)}></script>
   <script is:inline>
     const data = JSON.parse(document.getElementById('conceptData').textContent);
+    const episodeData = JSON.parse(document.getElementById('episodeData').textContent);
     let activeCat = 'all';
     let query = '';
 
@@ -62,15 +73,45 @@ const catEntries = Object.entries(categories as Record<string, {name: string}>);
         return catOk && qOk;
       });
 
+      const matchedEpisodes = q
+        ? episodeData.filter((e) => {
+            const catOk = activeCat === 'all' || e.cat === activeCat;
+            const qOk = e.guest.toLowerCase().includes(q) || e.role.toLowerCase().includes(q);
+            return catOk && qOk;
+          })
+        : [];
+
+      const totalCount = filtered.length + matchedEpisodes.length;
       document.getElementById('resultCount').textContent = query
-        ? `${filtered.length} találat erre: "${query}"`
+        ? `${totalCount} találat erre: "${query}"`
         : `${filtered.length} fogalom`;
 
+      const epContainer = document.getElementById('episodeResults');
+      if (matchedEpisodes.length > 0) {
+        epContainer.innerHTML = `<h3 style="margin-top:8px;">Epizódok</h3>
+          <div class="guest-grid" style="margin-bottom:28px;">
+            ${matchedEpisodes.map((e) => `<a href="/epizod/${e.id}/" class="guest-card">
+              <span class="guest-name">${e.guest}</span>
+              <span class="guest-role">${e.role}</span>
+            </a>`).join('')}
+          </div>`;
+      } else {
+        epContainer.innerHTML = '';
+      }
+
       const grid = document.getElementById('conceptGrid');
-      if (filtered.length === 0) {
+      const heading = document.getElementById('conceptsHeading');
+      if (filtered.length === 0 && matchedEpisodes.length === 0) {
+        heading.style.display = 'none';
         grid.innerHTML = '<p>Nincs találat ebben a kategóriában — próbálj másik szűrést, vagy töröld a keresést.</p>';
         return;
       }
+      if (filtered.length === 0) {
+        heading.style.display = 'none';
+        grid.innerHTML = '';
+        return;
+      }
+      heading.style.display = (query && matchedEpisodes.length > 0) ? 'block' : 'none';
       grid.innerHTML = filtered.map((c) => {
         const epsHtml = c.eps.map((e) => `<span class="chip">${e.guest}${e.t !== '—' ? ' · ' + e.t : ''}</span>`).join('');
         return `<a href="/fogalom/${c.id}/" class="concept-card">
