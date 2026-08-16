@@ -28,6 +28,7 @@ const episodesData = episodes.map((e) => ({
   guest: e.data.guest,
   role: e.data.role,
   cat: e.data.cats[0] ?? '',
+  summary: e.body.trim(),
 }));
 ---
 <Base title="TudásTér" description="Fogalomgyűjtemény a MI és más adásaiból — tematizálva, kereshetően, epizódokon átívelve.">
@@ -76,8 +77,7 @@ const episodesData = episodes.map((e) => ({
       const matchedEpisodes = q
         ? episodeData.filter((e) => {
             const catOk = activeCat === 'all' || e.cat === activeCat;
-            const qOk = e.guest.toLowerCase().includes(q) || e.role.toLowerCase().includes(q);
-            return catOk && qOk;
+            const qOk = e.guest.toLowerCase().includes(q) || e.role.toLowerCase().includes(q) || e.summary.toLowerCase().includes(q);
           })
         : [];
 
