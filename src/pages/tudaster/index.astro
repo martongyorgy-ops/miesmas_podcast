@@ -70,7 +70,8 @@ const episodesData = episodes.map((e) => ({
       const q = query.toLowerCase();
       const filtered = data.filter((c) => {
         const catOk = activeCat === 'all' || c.cat === activeCat;
-        const qOk = !q || c.name.toLowerCase().includes(q) || c.def.toLowerCase().includes(q);
+        const epMatch = c.eps.some((e) => e.guest.toLowerCase().includes(q));
+        const qOk = !q || c.name.toLowerCase().includes(q) || c.def.toLowerCase().includes(q) || epMatch;
         return catOk && qOk;
       });
 
