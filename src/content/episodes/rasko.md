@@ -10,3 +10,5 @@ concepts: []
 order: 100
 date: "2026-08-26"
 ---
+
+Az összefoglaló hamarosan, a leirat feldolgozása után kerül ide.
