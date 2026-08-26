@@ -5,7 +5,7 @@ role: "tanár, digitális oktatási szakember, a ProSuli szakmai vezetője"
 cats: ["oktatas"]
 url: "https://www.youtube.com/watch?v=VDIO3dI83mQ"
 quote: "Amikor jó eredményt szeretnék kapni a ChatGPT-től, akkor újra teljes mondatokba kell fogalmaznom — visszakanyarodtunk oda, hogy ezek a dolgok megint fontossá váltak."
-concepts: ["prosuli-program", "preciz-fogalmazas-ai", "kepessegek-ai-koraban"]
+concepts: ["prosuli-program", "preciz-fogalmazas-ai", "kepessegek-ai-koraban", "gyerekek-jovoje-ai-koraban"]
 order: 77
 ---
 
