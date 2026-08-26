@@ -6,7 +6,7 @@ cats: ["kutatas", "hr", "oktatas"]
 url: "https://www.youtube.com/watch?v=bsnw1dYfTSs&list=PL45N3BwKew0MrUDwiW2QrFO9JCQJUppLy&index=1&t=3s"
 spotify: "https://open.spotify.com/episode/2SoHoQPeQrnnZfU3ODnJcf?si=ra9BPyQDTZam1N-xNUgQYg"
 quote: "Egyszerűen kevés dolog szól ellene, hogy valaki ezzel elkezdjen foglalkozni — annyira alacsony a költség, hogy ha két hasonló kisvállalkozás közül az egyik elkezd AI-t használni, az valószínűleg jobban fog járni."
-concepts: ["ai-vezerelt-mikrovallalkozas", "vallalati-tudasbazis-ai"]
+concepts: ["ai-vezerelt-mikrovallalkozas", "vallalati-tudasbazis-ai", "vibe-coding", "adatbiztonsagi-jovahagyas", "gyerekek-jovoje-ai-koraban"]
 order: 100
 date: "2026-08-26"
 ---
