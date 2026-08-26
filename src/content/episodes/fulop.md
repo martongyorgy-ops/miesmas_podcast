@@ -5,7 +5,7 @@ role: "újságíró, digitáliskészség-fejlesztő (\"kütyűjogsi\")"
 cats: ["altalanos", "oktatas"]
 url: "https://www.youtube.com/watch?v=OkOaYMZQV9c"
 quote: "Az, hogy mi használjuk a mesterséges intelligenciát és ne fordítva, ahhoz az kell, hogy magunkat minél jobban ismerjük."
-concepts: ["rto", "hallucinacio", "mediacio", "kepessegek-ai-koraban"]
+concepts: ["rto", "hallucinacio", "mediacio", "kepessegek-ai-koraban", "gyerekek-jovoje-ai-koraban"]
 order: 4
 ---
 
