@@ -6,7 +6,7 @@ eps:
   - ep: "dalos"
     t: "—"
   - ep: "herbaly"
-    t: "36:13"
+    t: "38:38"
 ---
 
 Helyzetfelmérés → adatstratégia → platformválasztás → multidiszciplináris csapat (jog, IT-biztonság, adatvédelem) → kockázatmenedzsment — és mindenekelőtt a felső vezetés aktív részvétele.
