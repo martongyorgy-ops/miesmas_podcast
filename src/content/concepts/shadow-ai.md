@@ -11,6 +11,8 @@ eps:
     t: "—"
   - ep: "ignacz"
     t: "19:39"
+  - ep: "herbaly"
+    t: "36:13"
 ---
 
 Amikor munkatársak vállalati adatokat töltenek fel nem engedélyezett, ingyenes AI-eszközökbe — governance- és titoksértési kockázat. A KPMG-nél pont ezért kötelező egy hosszú biztonsági jóváhagyási folyamat minden olyan AI-eszköznél, ami ügyféladatot érinthet.
