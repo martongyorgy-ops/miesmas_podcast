@@ -2,7 +2,6 @@
 
 ## Fontos, technikai jellegű
 - **Epizódok sorrendje**: MEGERŐSÍTVE — a leiratok mindig időben visszafelé (legújabbtól a legrégebbi felé) lettek feltöltve, csomagonként is és csomagon belül is. Emiatt a `order` mező NÖVEKVŐ sorrendje = az adások CSÖKKENŐ időrendje (kisebb `order` = újabb adás). A rendezés ez alapján javítva (2026-08-10-én). Eddig 5 epizódnál van megerősített, valódi dátum is (`date:` mező): Pikéthy Árpád (2026-07-15), Dalos-Kovács Gabriella (2026-07-08), Molnár László (2026-07-01), Borbély Imre (2026-06-24), Dr. Völgyesi Gabriella (2026-06-17). A többi epizódnál egyelőre nincs pontos dátum, csak a feldolgozási sorrend — ha küldesz továbbiakat, ugyanígy be lehet írni őket.
-- **Spotify-link a legutóbbi adásnál**: a főoldalon egy helyőrző van („link hozzáadásra vár”) — ide kell majd az aktuális adás Spotify-linkje. Megbeszéltük, hogy a régebbi epizódoldalakon marad a YouTube-only megoldás.
 - **"Kövess minket" linkek** (Facebook, LinkedIn, YouTube) a lábjegyzetben egyelőre `#` helyőrzők — ide kellenek a valódi URL-ek.
 
 ## Tartalmi, jogi
