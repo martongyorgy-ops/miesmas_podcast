@@ -13,4 +13,4 @@ eps:
     t: "3:12"
 ---
 
-A nyelvi modell "válaszmotor" — kérdésre válaszol. Az AI-ügynök ennél több: célt tűz ki, tervet készít, cselekvést hajt végre, majd visszaellenőrzi az eredményt. Ugyanaz a technológiai váltás, amiről Varga Pál is beszélt az MCP-protokoll kapcsán, Bakonyi Zoltán "az AI-ügynökök évének" nevezte az idei évet, Németh Dávid pedig a saját, no-code módon épített email-kategorizáló ügynökét hozta példának.
+A nyelvi modell "válaszmotor" — kérdésre válaszol. Az AI-ügynök ennél több: célt tűz ki, tervet készít, cselekvést hajt végre, majd visszaellenőrzi az eredményt. Ugyanaz a technológiai váltás, amiről Varga Pál is beszélt az MCP-protokoll kapcsán, Bakonyi Zoltán "az AI-ügynökök évének" nevezte az idei évet, Németh Dávid pedig a saját, no-code módon épített email-kategorizáló ügynökét hozta példának. Kerek István pedig a latin "agere" (cselekedni) igető felől közelítette meg a fogalmat: az ügynök nem csupán válaszol, hanem cselekszik.
