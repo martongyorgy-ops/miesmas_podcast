@@ -1,0 +1,32 @@
+0---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const digests = await getCollection('newsdigests');
+  return digests.map((d) => ({
+    params: { id: d.data.id },
+    props: { digest: d },
+  }));
+}
+
+const { digest } = Astro.props;
+const dateLabel = new Date(digest.data.date).toLocaleDateString('hu-HU', {year:'numeric', month:'long', day:'numeric'});
+---
+<Base title={`MI Merre? — ${dateLabel}`} description="A világ AI-hírei — heti válogatás.">
+  <div class="wrap">
+    <section>
+      <p class="eyebrow">MI Merre?</p>
+      <h1>{dateLabel}</h1>
+      <div class="concept-grid" style="grid-template-columns:1fr; gap:20px;">
+        {digest.data.items.map((item) => (
+          <a href={item.url} class="concept-card" target="_blank" rel="noopener noreferrer">
+            <h3>{item.title}</h3>
+            <p>{item.summary}</p>
+          </a>
+        ))}
+      </div>
+      <p style="margin-top:20px;"><a href="/mi-merre/archivum/">← Az összes hírszemle</a></p>
+    </section>
+  </div>
+</Base>
