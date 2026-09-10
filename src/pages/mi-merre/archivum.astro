@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const digests = (await getCollection('newsdigests')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+---
+<Base title="Korábbi hírszemlék · MI Merre?" description="A MI Merre? rovat korábbi heti összefoglalói.">
+  <div class="wrap">
+    <section>
+      <p class="eyebrow">MI Merre?</p>
+      <h1>Korábbi hírszemlék</h1>
+      <div class="guest-grid">
+        {digests.map((d) => (
+          <a href={`/mi-merre/${d.data.id}/`} class="guest-card">
+            <span class="guest-date">{new Date(d.data.date).toLocaleDateString('hu-HU', {year:'numeric', month:'long', day:'numeric'})}</span>
+            <span class="guest-name">{d.data.items.length} hír</span>
+          </a>
+        ))}
+      </div>
+      <p style="margin-top:20px;"><a href="/mi-merre/">← Vissza a legfrissebb hírszemléhez</a></p>
+    </section>
+  </div>
+</Base>
