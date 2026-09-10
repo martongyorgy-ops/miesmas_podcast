@@ -27,4 +27,17 @@ const concepts = defineCollection({
   }),
 });
 
-export const collections = { episodes, concepts };
+const newsdigests = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/newsdigests' }),
+  schema: z.object({
+    id: z.string(),
+    date: z.string(), // ISO dátum, pl. "2026-09-14"
+    items: z.array(z.object({
+      title: z.string(),
+      summary: z.string(),
+      url: z.string().url(),
+    })),
+  }),
+});
+
+export const collections = { episodes, concepts, newsdigests };
