@@ -5,6 +5,14 @@ import { getCollection } from 'astro:content';
 const digests = (await getCollection('newsdigests')).sort((a, b) => b.data.date.localeCompare(a.data.date));
 const latest = digests[0];
 const hasArchive = digests.length > 1;
+
+function renderSummary(text: string) {
+  const escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return escaped.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+}
+function plainText(text: string) {
+  return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1');
+}
 ---
 <Base title="MI Merre?" description="A világ AI-hírei — heti válogatás izgalmas, közérdekű mesterséges intelligencia hírekből.">
   <div class="wrap">
@@ -17,12 +25,19 @@ const hasArchive = digests.length > 1;
         <>
           <p class="guest-date" style="display:block; margin:24px 0 4px;">{new Date(latest.data.date).toLocaleDateString('hu-HU', {year:'numeric', month:'long', day:'numeric'})}</p>
           <div class="concept-grid" style="grid-template-columns:1fr; gap:20px;">
-            {latest.data.items.map((item) => (
-              <a href={item.url} class="concept-card" target="_blank" rel="noopener noreferrer">
-                <h3>{item.title}</h3>
-                <p>{item.summary}</p>
-              </a>
-            ))}
+            {latest.data.items.map((item, i) => {
+              const shareUrl = `https://www.miesmas.hu/mi-merre/${latest.data.id}/#hir-${i + 1}`;
+              return (
+                <div class="concept-card" id={`hir-${i + 1}`}>
+                  <h3>{item.title}</h3>
+                  <p set:html={renderSummary(item.summary)} />
+                  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+                    <a href={item.url} target="_blank" rel="noopener noreferrer" class="chip">Forrás →</a>
+                    <button type="button" class="chip chip-btn share-btn" data-title={item.title} data-summary={plainText(item.summary)} data-url={shareUrl}>Megosztás</button>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </>
       ) : (
@@ -34,4 +49,23 @@ const hasArchive = digests.length > 1;
       )}
     </section>
   </div>
+
+  <script>
+    document.querySelectorAll('.share-btn').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const title = btn.getAttribute('data-title');
+        const summary = btn.getAttribute('data-summary');
+        const url = btn.getAttribute('data-url');
+        const text = `${title}\n\n${summary}\n\n${url}`;
+        try {
+          await navigator.clipboard.writeText(text);
+          const original = btn.textContent;
+          btn.textContent = 'Vágólapra másolva!';
+          setTimeout(() => { btn.textContent = original; }, 2000);
+        } catch (e) {
+          console.error('Nem sikerült a vágólapra másolás', e);
+        }
+      });
+    });
+  </script>
 </Base>
