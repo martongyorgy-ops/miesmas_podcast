@@ -88,6 +88,7 @@ p{margin:0 0 16px;color:var(--ink-soft);}
 .concept-card p{font-size:16px;margin-bottom:10px;}
 .chip{font-size:14px;font-weight:600;background:var(--line);color:var(--ink-soft);padding:4px 10px;border-radius:20px;display:inline-block;margin:2px 4px 2px 0;text-decoration:none;}
 .chip:hover{background:var(--line-strong);}
+.chip-btn{border:none;cursor:pointer;font-family:inherit;}
 
 .profile{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;}
 .profile img{width:180px;height:180px;border-radius:14px;object-fit:cover;flex-shrink:0;border:1px solid var(--line);}
