@@ -9,7 +9,7 @@ interface Props {
   description?: string;
   image?: string;
 }
-const { title, description = 'MI és más — közérthetően a mesterséges intelligenciáról', image = '/images/og-cover.png' } = Astro.props;
+const { title, description = 'MI és más — közérthetően a mesterséges intelligenciáról', image = '/images/mi-es-mas-og-cover.png' } = Astro.props;
 const ogImageUrl = new URL(image, Astro.site).toString();
 const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
 ---
