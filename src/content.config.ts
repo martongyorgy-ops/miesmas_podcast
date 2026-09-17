@@ -22,7 +22,7 @@ const concepts = defineCollection({
   schema: z.object({
     id: z.string(),
     name: z.string(),
-    cat: z.string(),
+    cat: z.union([z.string(), z.array(z.string())]),
     eps: z.array(z.object({ ep: z.string(), t: z.string() })),
   }),
 });
