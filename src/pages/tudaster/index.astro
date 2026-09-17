@@ -11,7 +11,7 @@ const conceptsData = concepts
   .map((c) => ({
     id: c.data.id,
     name: c.data.name,
-    cat: c.data.cat,
+    cats: Array.isArray(c.data.cat) ? c.data.cat : [c.data.cat],
     def: c.body.trim(),
     eps: c.data.eps.map((e) => ({
       ep: e.ep,
@@ -69,7 +69,7 @@ const episodesData = episodes.map((e) => ({
     function render() {
       const q = query.toLowerCase();
       const filtered = data.filter((c) => {
-        const catOk = activeCat === 'all' || c.cat === activeCat;
+        const catOk = activeCat === 'all' || c.cats.includes(activeCat);
         const epMatch = c.eps.some((e) => e.guest.toLowerCase().includes(q));
         const qOk = !q || c.name.toLowerCase().includes(q) || c.def.toLowerCase().includes(q) || epMatch;
         return catOk && qOk;
