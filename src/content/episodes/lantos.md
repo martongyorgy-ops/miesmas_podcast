@@ -5,7 +5,7 @@ role: "EU digitális egészség fejlesztési vezető, Semmelweis Egyetem tanszé
 cats: ["egeszseg", "oktatas"]
 url: "https://www.youtube.com/watch?v=x9jZaOsxkZE"
 quote: "Minden természetes személynek lesznek olyan jogai, amit gyakorolnia kell tudnia — meg tudja nézni, ki használta az adatait."
-concepts: ["ehds"]
+concepts: ["ehds", "ai-oktatas-semmelweisen"]
 order: 11
 ---
 
