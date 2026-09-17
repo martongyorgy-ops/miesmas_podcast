@@ -1,7 +1,7 @@
 ---
 id: "ai-oktatas-semmelweisen"
 name: "MI-alapú oktatás a Semmelweis Egyetemen"
-cat: "oktatas"
+cat: ["oktatas", "egeszseg"]
 eps:
   - ep: "lantos"
     t: "30:49"
