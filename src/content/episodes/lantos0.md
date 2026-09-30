@@ -5,7 +5,7 @@ role: "egyetemi docens, tanszékvezető, Semmelweis Egyetem"
 cats: ["egeszseg", "oktatas"]
 url: "https://www.youtube.com/watch?v=pSxSeC7JWUg"
 quote: "Az egészségügy valójában betegségügy — megvárjuk, amíg valaki annyira beteg lesz, hogy szinte már alig tudjuk kezelni."
-concepts: ["betegsegugy-vs-egeszsegugy"]
+concepts: ["betegsegugy-vs-egeszsegugy", "okos-eszkozok-egeszseg"]
 order: 71
 ---
 
