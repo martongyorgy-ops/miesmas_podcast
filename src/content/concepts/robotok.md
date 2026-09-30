@@ -1,6 +1,6 @@
 ---
 id: "robotok"
-name: "Robotok — hat nézőpont ugyanarra a technológiára"
+name: "Robotok — hét nézőpont ugyanarra a technológiára"
 cat: "hosszu"
 eps:
   - ep: "miklosi"
