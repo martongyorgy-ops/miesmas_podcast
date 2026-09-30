@@ -5,7 +5,7 @@ role: "orvos, korábbi gazdasági miniszter, egészségügyi vállalkozó"
 cats: ["egeszseg"]
 url: "https://www.youtube.com/watch?v=FDBQv3F5gHg"
 quote: "Eddig kutatók keresték a tűt a szénakazalban. Most az AI rámutat, hogy itt a tű."
-concepts: ["gyogyszerfejlesztes-ai", "tu-szenakazalban", "okos-eszkozok-egeszseg"]]
+concepts: ["gyogyszerfejlesztes-ai", "tu-szenakazalban", "okos-eszkozok-egeszseg"]
 order: 20
 ---
 
