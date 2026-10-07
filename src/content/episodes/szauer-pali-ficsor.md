@@ -12,4 +12,3 @@ date: "2026-10-07"
 ---
 
 Három fiatal szakember, akik napi öt–tizenhárom órát dolgoznak mesterséges intelligenciával: Szauer Dávid (n8n, Pocket Ninja), Páli Erik Trisztán (Gorilla GO) és Ficsór Kristóf AI-tanácsadó. Miért bukik el annyi vállalati AI-bevezetés, és miért kell előbb rendet tenni az adatokban és a folyamatokban? Mit kezdjen egy cég a titokban használt, saját AI-fiókokkal, hol húzódik a határ az AI önálló döntése és az emberi jóváhagyás között, és mennyi idő alatt térülhet meg egy tízfős KKV automatizálása? Szó esik arról is, mit tanácsolnak a pályakezdőknek, hogyan segíthetnek a szülők a gyerekeiknek tudatosan használni az AI-t, miért érdemes elzárt környezetben futtatni az ügynököket, és miért nem lesz rövidebb a munkanap attól, hogy egyszerre öt agent dolgozik helyettünk.
- Don’t ask again f
