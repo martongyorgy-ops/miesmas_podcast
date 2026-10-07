@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
 import categories from '../../data/categories.json';
+import ShareBar from '../../components/ShareBar.astro';
 
 export async function getStaticPaths() {
   const episodes = await getCollection('episodes');
@@ -52,6 +53,8 @@ function catName(key: string) {
 
       <p class="quote-block">„{ep.data.quote}”</p>
 
+      <ShareBar path={`/epizod/${ep.data.id}/`} title={ep.data.guest} />
+
       {relatedConcepts.length > 0 && (
         <>
           <h3>Kapcsolódó fogalmak</h3>
@@ -62,6 +65,9 @@ function catName(key: string) {
           </div>
         </>
       )}
+    </section>
+  </div>
+</Base>
     </section>
   </div>
 </Base>
