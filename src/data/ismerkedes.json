@@ -1,0 +1,34 @@
+{
+  "groups": [
+    {
+      "title": "Mi ez, és hogyan működik?",
+      "intro": "Mi történik a gép belsejében, és hol találkozunk az MI-vel, akár anélkül, hogy tudnánk róla.",
+      "episodes": [
+        { "id": "kerek3", "why": "Hogyan áll össze egy nagynyelvi modell válasza, és miért több az MI a ChatGPT-nél. Jó alap mindahhoz, ami ezután jön." },
+        { "id": "pinter", "why": "Keresés, térkép, közösségi média: az MI sokkal több helyen dolgozik körülöttünk, mint gondolnánk, a beszélgetős eszközöket viszont kevesebben használják, mint hinnénk." },
+        { "id": "molnar", "why": "Kézzelfogható példa: hogyan jelez előre időjárást egy 1940 óta gyűjtött adatokon tanult modell, és miért éppen a rendkívüli helyzetekben bizonytalan." }
+      ]
+    },
+    {
+      "title": "Az MI a mindennapokban",
+      "intro": "Tapasztalatok arról, mire jó az MI otthon, a családban és az alkotásban.",
+      "episodes": [
+        { "id": "fulop", "why": "Hogyan kérdezzünk jól, mire figyeljünk az adatainkkal, és mikor adjunk MI-eszközt a gyerekek kezébe. Talán a leggyakorlatiasabb belépő." },
+        { "id": "peterzs", "why": "Egy vak felhasználó, aki önerőből tanulta meg az MI-eszközök használatát, és elmondja, mit változtatott ez a mindennapjaiban." },
+        { "id": "turcsan", "why": "Mit jelent egy jó, részletes leírás egy képalkotó programnak, és művészet-e, ami így készül." },
+        { "id": "horvath", "why": "Pánik és vakhit között: hogyan fogyasszunk tudatosan médiát és MI-tartalmat, amikor naponta elárasztanak az információk." },
+        { "id": "juhasz", "why": "Derűsebb nézőpont egy díjnyertes technológiai újságírótól arról, hogyan fonódik össze az MI a kultúrával és az írással." }
+      ]
+    },
+    {
+      "title": "Kritikus szemmel",
+      "intro": "Mire figyeljünk, és mit ne fogadjunk el kérdés nélkül.",
+      "episodes": [
+        { "id": "rambo", "why": "Hogyan használják a csalók az MI-t adathalász levelek gyártására, és mire figyeljünk, hogy ne váljunk áldozattá." },
+        { "id": "torok", "why": "Miért zárhat buborékba a mindennel egyetértő chatbot, és miért jobb, ha a lecsóreceptnél az MI kérdez előbb minket." },
+        { "id": "tari", "why": "Pszichoanalitikus szemmel az MI-hez kapcsolódó szorongásról, és arról, mit tesz velünk a hízelgő chatbot." }
+      ]
+    }
+  ],
+  "concepts": ["llm-mukodes", "hallucinacio", "rto", "lathatatlan-ai", "helyeslo-ai-buborek", "kiberbunozes-ai"]
+}

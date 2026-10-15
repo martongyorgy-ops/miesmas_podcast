@@ -118,3 +118,11 @@ section.related .guest-grid, section.related .concept-grid{margin-bottom:24px;}
 .news-body p{margin:0 0 10px;}
 .news-body p:last-child{margin-bottom:0;}
 @media(max-width:600px){.news-item{flex-direction:column;gap:4px;}.news-item .news-date{width:auto;}}
+
+/* Ismerkedés az MI-vel: ajánló doboz és oldal */
+.ismerkedes-box{display:flex;flex-direction:column;gap:6px;margin:28px 0;padding:20px 22px;border-radius:12px;background:var(--amber-soft);border:1px solid var(--amber);text-decoration:none;color:var(--ink);}
+.ismerkedes-box:hover{border-width:2px;padding:19px 21px;}
+.ismerkedes-box-eyebrow{font-size:14px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--amber);}
+.ismerkedes-box-text{font-family:'Fraunces',serif;font-weight:600;font-size:21px;line-height:1.3;}
+.ismerkedes-box-cta{font-weight:600;font-size:16px;color:var(--ink-soft);}
+.ismerkedes-group .guest-role{color:var(--ink-soft);}

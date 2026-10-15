@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import IsmerkedesBox from '../../components/IsmerkedesBox.astro';
 import { getCollection } from 'astro:content';
 import categories from '../../data/categories.json';
 
@@ -37,6 +38,8 @@ const episodesData = episodes.map((e) => ({
       <p class="eyebrow">A műsor tudásbázisa</p>
       <h1>TudásTér</h1>
       <p class="lead">Fogalomgyűjtemény a műsorokban elhangzottak alapján — a Claude által tematizálva, kereshetően, az epizódokon átívelően, vagy éppen az epizódokat összekapcsolva.</p>
+
+      <IsmerkedesBox />
 
       <div class="search-row" style="margin:24px 0 6px; position:relative;">
         <label for="search" style="display:block; font-weight:600; margin-bottom:8px;">Keresés a fogalomtárban</label>

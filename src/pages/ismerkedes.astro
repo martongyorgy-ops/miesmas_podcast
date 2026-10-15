@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import data from '../data/ismerkedes.json';
+import { excerpt } from '../lib/text';
+
+const episodes = await getCollection('episodes');
+const concepts = await getCollection('concepts');
+const epById = Object.fromEntries(episodes.map((e) => [e.data.id, e]));
+const conceptById = Object.fromEntries(concepts.map((c) => [c.data.id, c]));
+const fmtDate = (d: string) => new Date(d).toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' });
+const pickedConcepts = data.concepts.map((id) => conceptById[id]).filter(Boolean);
+---
+<Base title="Ismerkedés az MI-vel" description="Ha most barátkozol a mesterséges intelligenciával, ezekkel a beszélgetésekkel érdemes kezdeni. Válogatás a MI és más adásaiból.">
+  <div class="wrap">
+    <section>
+      <p class="eyebrow">Ajánló</p>
+      <h1>Ismerkedés az MI-vel</h1>
+      <p class="lead">Ha most barátkozol a mesterséges intelligenciával, ezekkel a beszélgetésekkel érdemes kezdeni.</p>
+      <p>Nem kell hozzá előzetes tudás, és bármelyikkel kezdheted. Három csoportba rendeztük őket: válaszd azt, ami a legjobban érdekel.</p>
+    </section>
+
+    {data.groups.map((g) => (
+      <section class="ismerkedes-group">
+        <h2>{g.title}</h2>
+        <p>{g.intro}</p>
+        <div class="guest-grid">
+          {g.episodes.map(({ id, why }) => {
+            const ep = epById[id];
+            if (!ep) return null;
+            return (
+              <a href={`/epizod/${id}/`} class="guest-card">
+                {ep.data.date && <span class="guest-date">{fmtDate(ep.data.date)}</span>}
+                <span class="guest-name">{ep.data.guest}</span>
+                <span class="guest-role">{why}</span>
+              </a>
+            );
+          })}
+        </div>
+      </section>
+    ))}
+
+    {pickedConcepts.length > 0 && (
+      <section>
+        <p class="eyebrow">A TudásTérből</p>
+        <h2>Fogalmak, amelyeket érdemes ismerni</h2>
+        <div class="concept-grid">
+          {pickedConcepts.map((c) => (
+            <a href={`/fogalom/${c.data.id}/`} class="concept-card">
+              <h3>{c.data.name}</h3>
+              <p>{excerpt(c.body, 140)}</p>
+            </a>
+          ))}
+        </div>
+        <a href="/tudaster/" class="btn">Tovább a TudásTérbe</a>
+      </section>
+    )}
+  </div>
+</Base>
