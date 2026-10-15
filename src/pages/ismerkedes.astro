@@ -11,7 +11,7 @@ const conceptById = Object.fromEntries(concepts.map((c) => [c.data.id, c]));
 const fmtDate = (d: string) => new Date(d).toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' });
 const pickedConcepts = data.concepts.map((id) => conceptById[id]).filter(Boolean);
 ---
-<Base title="Ismerkedés az MI-vel" description="Ha most barátkozol a mesterséges intelligenciával, ezekkel a beszélgetésekkel érdemes kezdeni. Válogatás a MI és más adásaiból.">
+<Base title="Ismerkedés az MI-vel" image="/og/ismerkedes.png" description="Ha most barátkozol a mesterséges intelligenciával, ezekkel a beszélgetésekkel érdemes kezdeni. Válogatás a MI és más adásaiból.">
   <div class="wrap">
     <section>
       <p class="eyebrow">Ajánló</p>
