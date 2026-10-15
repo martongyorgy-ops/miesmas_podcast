@@ -40,4 +40,12 @@ const newsdigests = defineCollection({
   }),
 });
 
-export const collections = { episodes, concepts, newsdigests };
+// Aktualitások ("Mi történik éppen?"): fájlonként egy hír, a szöveg a fájl törzse
+const news = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/news' }),
+  schema: z.object({
+    date: z.string(), // ISO dátum, pl. "2026-10-01"
+  }),
+});
+
+export const collections = { episodes, concepts, newsdigests, news };

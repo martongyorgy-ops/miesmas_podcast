@@ -26,6 +26,13 @@ function catName(key: string) {
   return (categories as Record<string, {name: string}>)[key]?.name ?? key;
 }
 const { Content } = await render(latest);
+
+// Aktualitások: a főoldalon a legutóbbi 3 hír, a többi a /hirek/ oldalon
+const allNews = (await getCollection('news')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+const latestNews = await Promise.all(
+  allNews.slice(0, 3).map(async (item) => ({ item, Body: (await render(item)).Content }))
+);
+const newsDate = (d: string) => new Date(d).toLocaleDateString('hu-HU', { year: 'numeric', month: 'short', day: 'numeric' });
 function spotifyEmbedUrl(url) {
   const match = url.match(/episode\/([a-zA-Z0-9]+)/);
   const id = match ? match[1] : '';
@@ -93,27 +100,17 @@ function spotifyEmbedUrl(url) {
 
     <section id="aktualis">
       <p class="eyebrow">Aktualitások</p>
-           <h2>Mi történik éppen?</h2>
-    <div class="news-item">
-      <div>
-        <p style="margin:0;">Október elsején volt az idősek világnapja, és nagyon felemelő, hogy az <a href="https://60plusz.ujbuda.hu/" target="_blank" rel="noopener">Újbuda 60+ program</a> keretében a nálam kicsit – vagy nem is kicsit – idősebbeket kalauzolhatom el az MI világába. Meggyőződésem, hogy soha nincs késő belekezdeni és elsajátítani, mi mindenre lehet idősebb korban is – kritikusan, értőn, felelősen – használni az MI-t. Belekóstolunk abba is, hogyan álljunk kellő kritikával az MI mondásaihoz, és hogyan bizonyosodjunk meg arról, hogy amit az MI (vagy éppen más) mond, az igaz: nem hallucináció, nem félrevezetés, nem átverés, és nem a megkárosításunk a célja. Nagyon örülök, hogy ebben részt vehetek, és ha már beszélünk róla, akár máshol, másoknak is örömmel segítek, amennyit tudok.</p>
-      </div>
-    </div>
-    <div class="news-item">
-      <div>
-                <p style="margin:0;">Bővült az oldal, elindult a <a href="/mi-merre/">„MI Merre?”</a> rovat, ahol a MI-világának híreiből jelenik meg időről időre egy kis csokor. A híreket a Claude keresi és írja meg, az „ellenőr” Márton György.</p>
-      </div>
-    </div>
-    <div class="news-item">
-      <div>
-        <p style="margin:0;">Szeptember 7-én és 8-án személyesen is találkozhatunk az <a href="https://aisummitbudapest.hu/" target="_blank" rel="noopener">AI Summit Budapest</a> konferencián: mindkét délelőtt Márton György konferál az MKIK Prompt Aréna színpadon, kedd délelőtt pedig kerekasztal-beszélgetést is vezet a Future Lab teremben „AI-forradalom vagy túlértékelt hype? Mi hoz valódi üzleti eredményt a kkv-knak?” címmel.</p>
-      </div>
-    </div>
-      <div class="news-item">
-        <div>
-          <p style="margin:0;">A nyári szünet alatt elkészült — köszönet a Claude-nak! —, a műsor weboldala. Itt lesznek hírek, érdekességek, és természetesen innen is elérhető az összes adás és a folyamatosan frissülő, épülő, szépülő TudásTér, ahol az elhangzott témákra, fogalmakra lehet rákeresni, sőt az ezekről szóló beszélgetéseket, beszélgetés-részleteket meg is lehet nézni. Próbálgassátok!</p>
+      <h2>Mi történik éppen?</h2>
+      {latestNews.map(({ item, Body }) => (
+        <div class="news-item">
+          <span class="news-date">{newsDate(item.data.date)}</span>
+          <div class="news-body"><Body /></div>
         </div>
-      </div>    </section>
+      ))}
+      {allNews.length > latestNews.length && (
+        <p style="margin-top:20px;"><a href="/hirek/">Korábbi hírek →</a></p>
+      )}
+    </section>
 
     <section id="tudaster">
       <p class="eyebrow">A műsor tudásbázisa</p>
@@ -134,4 +131,12 @@ function spotifyEmbedUrl(url) {
     </section>
 
   </div>
+
+  <script>
+    // Külső linkek a hírekben új lapon nyíljanak meg
+    document.querySelectorAll('.news-body a[href^="http"]').forEach((a) => {
+      a.setAttribute('target', '_blank');
+      a.setAttribute('rel', 'noopener');
+    });
+  </script>
 </Base>

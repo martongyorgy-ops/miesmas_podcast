@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+const allNews = (await getCollection('news')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+const items = await Promise.all(allNews.map(async (item) => ({ item, Body: (await render(item)).Content })));
+const newsDate = (d: string) => new Date(d).toLocaleDateString('hu-HU', { year: 'numeric', month: 'short', day: 'numeric' });
+---
+<Base title="Hírek" description="A MI és más műsor és Márton György hírei, eseményei, aktualitásai.">
+  <div class="wrap">
+    <section>
+      <p class="eyebrow">Aktualitások</p>
+      <h1>Hírek</h1>
+      {items.map(({ item, Body }) => (
+        <div class="news-item">
+          <span class="news-date">{newsDate(item.data.date)}</span>
+          <div class="news-body"><Body /></div>
+        </div>
+      ))}
+      <p style="margin-top:28px;"><a href="/">← Vissza a főoldalra</a></p>
+    </section>
+  </div>
+
+  <script>
+    // Külső linkek a hírekben új lapon nyíljanak meg
+    document.querySelectorAll('.news-body a[href^="http"]').forEach((a) => {
+      a.setAttribute('target', '_blank');
+      a.setAttribute('rel', 'noopener');
+    });
+  </script>
+</Base>
