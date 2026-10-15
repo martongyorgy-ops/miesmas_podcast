@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
 import categories from '../../data/categories.json';
 import { excerpt } from '../../lib/text';
+import { relatedConcepts } from '../../lib/related';
 
 export async function getStaticPaths() {
   const concepts = await getCollection('concepts');
@@ -16,6 +17,8 @@ const { c } = Astro.props;
 const { Content } = await render(c);
 
 const episodes = await getCollection('episodes');
+const allConcepts = await getCollection('concepts');
+const moreConcepts = relatedConcepts(c, allConcepts, 4);
 const epById = Object.fromEntries(episodes.map((e) => [e.data.id, e]));
 
 function catName(key: string) {
@@ -43,7 +46,25 @@ function catName(key: string) {
         })}
       </div>
 
-      <a href="/tudaster/" class="btn">Vissza a TudásTérhez</a>
     </section>
+
+    {moreConcepts.length > 0 && (
+      <section class="related">
+        <p class="eyebrow">Ez is érdekelhet</p>
+        <h2>Kapcsolódó fogalmak</h2>
+        <div class="concept-grid">
+          {moreConcepts.map((o) => (
+            <a href={`/fogalom/${o.data.id}/`} class="concept-card">
+              <h3>{o.data.name}</h3>
+              <p>{excerpt(o.body, 140)}</p>
+            </a>
+          ))}
+        </div>
+        <a href="/tudaster/" class="btn">Vissza a TudásTérhez</a>
+      </section>
+    )}
+    {moreConcepts.length === 0 && (
+      <section><a href="/tudaster/" class="btn">Vissza a TudásTérhez</a></section>
+    )}
   </div>
 </Base>

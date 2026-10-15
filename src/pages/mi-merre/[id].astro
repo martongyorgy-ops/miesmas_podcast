@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 import { excerpt } from '../../lib/text';
+import { newestFirst } from '../../lib/related';
 
 export async function getStaticPaths() {
   const digests = await getCollection('newsdigests');
@@ -12,6 +13,12 @@ export async function getStaticPaths() {
 }
 
 const { digest } = Astro.props;
+const allDigests = (await getCollection('newsdigests')).sort((a, b) => a.data.date.localeCompare(b.data.date));
+const idx = allDigests.findIndex((d) => d.data.id === digest.data.id);
+const prev = idx > 0 ? allDigests[idx - 1] : undefined;
+const next = idx < allDigests.length - 1 ? allDigests[idx + 1] : undefined;
+const latestEp = (await getCollection('episodes')).sort(newestFirst)[0];
+const fmt = (d: string) => new Date(d).toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' });
 const dateLabel = new Date(digest.data.date).toLocaleDateString('hu-HU', {year:'numeric', month:'long', day:'numeric'});
 
 function renderSummary(text: string) {
@@ -42,8 +49,27 @@ function plainText(text: string) {
           );
         })}
       </div>
-      <p style="margin-top:20px;"><a href="/mi-merre/archivum/">← Az összes hírszemle</a></p>
+      <nav class="digest-nav" aria-label="Hírszemlék között">
+        {prev ? <a href={`/mi-merre/${prev.data.id}/`}>← Előző: {fmt(prev.data.date)}</a> : <span></span>}
+        {next && <a href={`/mi-merre/${next.data.id}/`}>Következő: {fmt(next.data.date)} →</a>}
+      </nav>
+      <p style="margin-top:12px;"><a href="/mi-merre/archivum/">Az összes hírszemle</a></p>
     </section>
+
+    {latestEp && (
+      <section class="related">
+        <p class="eyebrow">A műsorból</p>
+        <h2>Hallgasd meg a legújabb adást</h2>
+        <div class="guest-grid" style="grid-template-columns:1fr;">
+          <a href={`/epizod/${latestEp.data.id}/`} class="guest-card">
+            {latestEp.data.date && <span class="guest-date">{fmt(latestEp.data.date)}</span>}
+            <span class="guest-name">{latestEp.data.guest}</span>
+            <span class="guest-role">{latestEp.data.role}</span>
+          </a>
+        </div>
+        <a href="/epizodok/" class="btn">Az összes epizód</a>
+      </section>
+    )}
   </div>
 
   <script>

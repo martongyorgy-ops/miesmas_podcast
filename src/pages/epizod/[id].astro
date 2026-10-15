@@ -4,6 +4,7 @@ import { getCollection, render } from 'astro:content';
 import categories from '../../data/categories.json';
 import ShareBar from '../../components/ShareBar.astro';
 import { excerpt } from '../../lib/text';
+import { relatedEpisodes } from '../../lib/related';
 
 export async function getStaticPaths() {
   const episodes = await getCollection('episodes');
@@ -17,7 +18,13 @@ const { ep } = Astro.props;
 const { Content } = await render(ep);
 
 const allConcepts = await getCollection('concepts');
-const relatedConcepts = allConcepts.filter((c) => ep.data.concepts.includes(c.data.id));
+// Azok a fogalmak, amelyeket az epizód felsorol, vagy amelyek erre az epizódra hivatkoznak
+const relatedConcepts = allConcepts.filter(
+  (c) => ep.data.concepts.includes(c.data.id) || c.data.eps.some((e: { ep: string }) => e.ep === ep.data.id)
+);
+const allEpisodes = await getCollection('episodes');
+const moreEpisodes = relatedEpisodes(ep, allEpisodes, allConcepts, 4);
+const fmtDate = (d: string) => new Date(d).toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' });
 
 function ytEmbedUrl(url: string) {
   const match = url.match(/[?&]v=([^&]+)/) || url.match(/youtu\.be\/([^?&]+)/);
@@ -58,7 +65,7 @@ function catName(key: string) {
 
       {relatedConcepts.length > 0 && (
         <>
-          <h3>Kapcsolódó fogalmak</h3>
+          <h3>Kapcsolódó fogalmak a TudásTérből</h3>
           <div>
             {relatedConcepts.map((c) => (
               <a href={`/fogalom/${c.data.id}/`} class="chip">{c.data.name}</a>
@@ -66,6 +73,21 @@ function catName(key: string) {
           </div>
         </>
       )}
+    </section>
+
+    <section class="related">
+      <p class="eyebrow">Hallgass tovább</p>
+      <h2>Hasonló témájú beszélgetések</h2>
+      <div class="guest-grid">
+        {moreEpisodes.map((o) => (
+          <a href={`/epizod/${o.data.id}/`} class="guest-card">
+            {o.data.date && <span class="guest-date">{fmtDate(o.data.date)}</span>}
+            <span class="guest-name">{o.data.guest}</span>
+            <span class="guest-role">{o.data.role}</span>
+          </a>
+        ))}
+      </div>
+      <a href="/epizodok/" class="btn">Az összes epizód</a>
     </section>
   </div>
 </Base>
