@@ -11,9 +11,11 @@
     "preview": "astro preview",
     "astro": "astro"
   },
-      "dependencies": {
-    "astro": "^7.2.0",
+  "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
-    "@vercel/analytics": "^2.0.1"
+    "@resvg/resvg-js": "^2.6.2",
+    "@vercel/analytics": "^2.0.1",
+    "astro": "^7.2.0",
+    "satori": "^0.60.0"
   }
 }

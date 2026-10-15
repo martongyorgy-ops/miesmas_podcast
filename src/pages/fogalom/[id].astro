@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
 import categories from '../../data/categories.json';
+import { excerpt } from '../../lib/text';
 
 export async function getStaticPaths() {
   const concepts = await getCollection('concepts');
@@ -21,7 +22,7 @@ function catName(key: string) {
   return (categories as Record<string, {name: string}>)[key]?.name ?? key;
 }
 ---
-<Base title={c.data.name} description={`${c.data.name} — MI és más TudásTér`}>
+<Base title={c.data.name} description={excerpt(c.body) || `${c.data.name} - MI és más TudásTér`} image={`/og/fogalom/${c.data.id}.png`} type="article">
   <div class="wrap">
     <section>
       <p class="eyebrow">Fogalom · {(Array.isArray(c.data.cat) ? c.data.cat : [c.data.cat]).map(catName).join(', ')}</p>

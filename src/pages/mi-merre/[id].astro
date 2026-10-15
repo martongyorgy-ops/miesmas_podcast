@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
+import { excerpt } from '../../lib/text';
 
 export async function getStaticPaths() {
   const digests = await getCollection('newsdigests');
@@ -21,7 +22,7 @@ function plainText(text: string) {
   return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1');
 }
 ---
-<Base title={`MI Merre? — ${dateLabel}`} description="A világ AI-hírei — heti válogatás.">
+<Base title={`MI Merre? — ${dateLabel}`} description={excerpt(`A világ AI-hírei: ${digest.data.items.map((i) => i.title).join(' · ')}`)} image={`/og/mi-merre/${digest.data.id}.png`} type="article">
   <div class="wrap">
     <section>
       <p class="eyebrow">MI Merre?</p>
