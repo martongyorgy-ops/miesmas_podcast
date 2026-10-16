@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { excerpt } from '../../lib/text';
+
+const posts = (await getCollection('gondolatok')).sort((a, b) => b.data.date.localeCompare(a.data.date));
+const fmtDate = (d: string) => new Date(d).toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<Base title="Gondolatok" description="Márton György írásai a mesterséges intelligenciáról: tapasztalatok, vélemények, tanácsok.">
+  <div class="wrap">
+    <section>
+      <p class="eyebrow">Írások</p>
+      <h1>Gondolatok</h1>
+      <p class="lead">Írások a mesterséges intelligenciáról: tapasztalatok, vélemények, tanácsok.</p>
+      <div class="concept-grid" style="grid-template-columns:1fr;">
+        {posts.map((p) => (
+          <a href={`/gondolatok/${p.id}/`} class="concept-card">
+            <span class="guest-date">{fmtDate(p.data.date)}</span>
+            <h3 style="margin-top:4px;">{p.data.title}</h3>
+            <p>{p.data.lead ?? excerpt(p.body, 200)}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+</Base>

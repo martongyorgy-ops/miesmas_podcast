@@ -29,9 +29,10 @@ export interface OgCard {
   title: string;     // vendég neve vagy fogalom neve
   subtitle?: string; // szerep vagy rövid leírás
   meta?: string;     // pl. dátum
+  footer?: string;   // bal alsó felirat (alapértelmezés: a műsor szlogenje)
 }
 
-export async function renderOg({ eyebrow, title, subtitle, meta }: OgCard): Promise<Uint8Array> {
+export async function renderOg({ eyebrow, title, subtitle, meta, footer = 'Közérthetően a mesterséges intelligenciáról' }: OgCard): Promise<Uint8Array> {
   const titleSize = title.length > 60 ? 54 : title.length > 34 ? 64 : 80;
   const tree = h('div', {
     // satori content-box méretezést használ: 1200 - 2×72 = 1056, 630 - 14 - 50 - 44 = 522
@@ -51,7 +52,7 @@ export async function renderOg({ eyebrow, title, subtitle, meta }: OgCard): Prom
     ].filter(Boolean)),
     h('div', { display: 'flex', width: 1056, justifyContent: 'space-between', alignItems: 'center', borderTop: `2px solid ${C.line}`, paddingTop: 22, flexShrink: 0,
       fontSize: 26, color: C.soft }, [
-      h('span', {}, 'Közérthetően a mesterséges intelligenciáról'),
+      h('span', {}, footer),
       h('span', { color: C.amber, fontWeight: 700 }, meta ? `${meta} · miesmas.hu` : 'miesmas.hu'),
     ]),
   ]);

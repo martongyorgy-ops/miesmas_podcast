@@ -3,14 +3,15 @@
 interface Props {
   path: string;   // az oldal útvonala, pl. "/epizod/szauer-pali-ficsor/"
   title: string;  // a megosztott beszélgetés címe
+  heading?: string; // a sáv felirata
 }
-const { path, title } = Astro.props;
+const { path, title, heading = 'Tetszett a beszélgetés?' } = Astro.props;
 const shareUrl = new URL(path, Astro.site).toString();
 const enc = encodeURIComponent(shareUrl);
 const spotifyShow = 'https://open.spotify.com/show/0EGs6wfWqAb2nfa23ieOpS?si=d5c0ab7231aa4c1b';
 ---
 <div class="share-bar" data-share-url={shareUrl} data-share-title={title}>
-  <p class="share-title">Tetszett a beszélgetés?</p>
+  <p class="share-title">{heading}</p>
   <div class="share-actions">
     <a href={spotifyShow} class="btn share-spotify" target="_blank" rel="noopener">Kövesd a műsort a Spotify-on</a>
     <button type="button" class="share-btn" data-share-open>Oszd meg</button>

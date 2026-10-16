@@ -48,4 +48,16 @@ const news = defineCollection({
   }),
 });
 
-export const collections = { episodes, concepts, newsdigests, news };
+// Gondolatok: Márton György saját írásai, írásonként egy fájl
+const gondolatok = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/gondolatok' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.string(), // ISO dátum, pl. "2026-10-16"
+    lead: z.string().optional(), // rövid bevezető (megosztáshoz, listákhoz)
+    episodes: z.array(z.string()).optional(), // kapcsolódó epizódok azonosítói
+    cta: z.object({ text: z.string(), url: z.string() }).optional(), // kiemelt link az írás végén
+  }),
+});
+
+export const collections = { episodes, concepts, newsdigests, news, gondolatok };

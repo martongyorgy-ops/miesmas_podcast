@@ -1,0 +1,60 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import ShareBar from '../../components/ShareBar.astro';
+import { excerpt } from '../../lib/text';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('gondolatok');
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const episodes = await getCollection('episodes');
+const epById = Object.fromEntries(episodes.map((e) => [e.data.id, e]));
+const related = (post.data.episodes ?? []).map((id: string) => epById[id]).filter(Boolean);
+const fmtDate = (d: string) => new Date(d).toLocaleDateString('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' });
+const description = post.data.lead ?? excerpt(post.body);
+---
+<Base title={post.data.title} description={description} image={`/og/gondolatok/${post.id}.png`} type="article">
+  <div class="wrap">
+    <article>
+      <section>
+        <p class="eyebrow">Gondolatok</p>
+        <h1>{post.data.title}</h1>
+        <p class="post-meta">Márton György · {fmtDate(post.data.date)}</p>
+        <div class="post-body"><Content /></div>
+
+        {post.data.cta && (
+          <a href={post.data.cta.url} class="ismerkedes-box post-cta">
+            <span class="ismerkedes-box-text">{post.data.cta.text}</span>
+            <span class="ismerkedes-box-cta">Tovább →</span>
+          </a>
+        )}
+
+        <ShareBar path={`/gondolatok/${post.id}/`} title={post.data.title} heading="Tetszett az írás?" />
+      </section>
+    </article>
+
+    {related.length > 0 && (
+      <section class="related">
+        <p class="eyebrow">Hallgass bele</p>
+        <h2>Kapcsolódó beszélgetések</h2>
+        <div class="guest-grid">
+          {related.map((o) => (
+            <a href={`/epizod/${o.data.id}/`} class="guest-card">
+              {o.data.date && <span class="guest-date">{fmtDate(o.data.date)}</span>}
+              <span class="guest-name">{o.data.guest}</span>
+              <span class="guest-role">{o.data.role}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <section>
+      <a href="/gondolatok/" class="btn">Az összes írás</a>
+    </section>
+  </div>
+</Base>
