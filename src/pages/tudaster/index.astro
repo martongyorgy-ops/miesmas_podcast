@@ -82,6 +82,7 @@ const episodesData = episodes.map((e) => ({
         ? episodeData.filter((e) => {
             const catOk = activeCat === 'all' || e.cat === activeCat;
             const qOk = e.guest.toLowerCase().includes(q) || e.role.toLowerCase().includes(q) || e.summary.toLowerCase().includes(q);
+            return catOk && qOk;
           })
         : [];
 
