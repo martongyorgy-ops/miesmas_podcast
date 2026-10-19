@@ -22,7 +22,32 @@ const conceptsData = concepts
   }))
   .sort((a, b) => a.name.localeCompare(b.name, 'hu'));
 
-const catEntries = Object.entries(categories as Record<string, {name: string}>);
+const catEntries = Object.entries(categories as Record<string, {name: string; color: string}>);
+
+// Tématárcsa: az "Összes" a tárcsa tetején, a többi téma óramutató járása szerint körben
+const dialTopics = [
+  { key: 'all', name: 'Összes téma', color: '#54574F', count: conceptsData.length },
+  ...catEntries.map(([key, val]) => ({
+    key,
+    name: val.name,
+    color: val.color,
+    count: conceptsData.filter((c) => c.cats.includes(key)).length,
+  })),
+].map((t, i, arr) => {
+  const step = 360 / arr.length;
+  const rad = ((i * step - 90) * Math.PI) / 180;
+  return {
+    ...t,
+    i,
+    angle: i * step,
+    // címkék helye asztali nézetben (600×440 px-es terület, középpont: 300, 220)
+    x: Math.round(300 + Math.cos(rad) * 225),
+    y: Math.round(220 + Math.sin(rad) * 183),
+    // színes pontok a tárcsa körül (a 300×300-as tárcsadoboz %-ában)
+    dx: (50 + Math.cos(rad) * 43).toFixed(2),
+    dy: (50 + Math.sin(rad) * 43).toFixed(2),
+  };
+});
 
 const episodesData = episodes.map((e) => ({
   id: e.data.id,
@@ -48,12 +73,41 @@ const episodesData = episodes.map((e) => ({
       </div>
       <p id="resultCount" style="font-size:14.5px; color:var(--ink-faint);" aria-live="polite"></p>
 
-      <nav class="topic-nav" aria-label="Témák szerinti szűrés" id="topicNav">
-        <button class="topic-pill active" data-cat="all" type="button">Összes</button>
-        {catEntries.map(([key, val]) => (
-          <button class="topic-pill" data-cat={key} type="button">{val.name}</button>
-        ))}
-      </nav>
+      <section class="dial-section" aria-label="Témák szerinti szűrés">
+        <div class="dial-stage">
+          <div class="dial-box">
+            {dialTopics.map((t) => (
+              <span class="dial-dot" data-i={t.i} aria-hidden="true"
+                style={`left:${t.dx}%; top:${t.dy}%; background:${t.color};`}></span>
+            ))}
+            <div class="dial" aria-hidden="true">
+              <div class="dial-rotor" id="dialRotor">
+                <span class="dial-notch" id="dialNotch"></span>
+              </div>
+              <svg class="dial-text" viewBox="0 0 200 200">
+                <defs><path id="dialArc" d="M 22 100 A 78 78 0 0 0 178 100"></path></defs>
+                <text><textPath href="#dialArc" startOffset="50%" text-anchor="middle">MI ÉS MÁS · TUDÁSTÉR</textPath></text>
+              </svg>
+            </div>
+            <div class="dial-face" role="status" aria-live="polite">
+              <span class="dial-count" id="dialCount">{conceptsData.length}</span>
+              <span class="dial-unit">fogalom</span>
+            </div>
+          </div>
+
+          <nav class="dial-topics" id="topicNav" aria-label="Témák">
+            {dialTopics.map((t) => (
+              <button class={`topic-pill${t.i === 0 ? ' active' : ''}`} type="button"
+                data-cat={t.key} data-i={t.i} data-count={t.count} data-color={t.color}
+                aria-pressed={t.i === 0 ? 'true' : 'false'}
+                style={`--c:${t.color}; --x:${t.x}px; --y:${t.y}px;`}>
+                <span class="pill-dot" aria-hidden="true"></span>{t.name}
+              </button>
+            ))}
+          </nav>
+        </div>
+        <p class="dial-name" id="dialName">Összes téma</p>
+      </section>
 
       <div id="episodeResults"></div>
       <h3 id="conceptsHeading" style="display:none;">Fogalmak</h3>
@@ -132,15 +186,121 @@ const episodesData = episodes.map((e) => ({
       render();
     });
 
-    document.querySelectorAll('.topic-pill').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.topic-pill').forEach((b) => b.classList.remove('active'));
-        btn.classList.add('active');
-        activeCat = btn.dataset.cat;
-        render();
+    // Tématárcsa: a gomb a rövidebb úton fordul a kiválasztott témához
+    const pills = document.querySelectorAll('.topic-pill');
+    const stepDeg = 360 / pills.length;
+    let dialIdx = 0;
+    let dialRot = 0;
+
+    function selectTopic(btn) {
+      const i = Number(btn.dataset.i);
+      let delta = i - dialIdx;
+      if (delta > pills.length / 2) delta -= pills.length;
+      if (delta < -pills.length / 2) delta += pills.length;
+      dialRot += delta * stepDeg;
+      dialIdx = i;
+
+      const color = btn.dataset.cat === 'all' ? '#F2B477' : btn.dataset.color;
+      document.getElementById('dialRotor').style.transform = `rotate(${dialRot}deg)`;
+      document.getElementById('dialNotch').style.background = color;
+      document.getElementById('dialNotch').style.boxShadow = `0 0 10px ${color}`;
+      document.getElementById('dialCount').textContent = btn.dataset.count;
+      document.getElementById('dialCount').style.color = btn.dataset.color;
+      document.getElementById('dialName').textContent = btn.textContent.trim();
+      document.querySelectorAll('.dial-dot').forEach((d) => d.classList.toggle('on', Number(d.dataset.i) === i));
+
+      pills.forEach((b) => {
+        b.classList.toggle('active', b === btn);
+        b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
       });
-    });
+      // mobilon a kiválasztott gomb gördüljön a látható részre
+      btn.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+
+      activeCat = btn.dataset.cat;
+      render();
+    }
+
+    pills.forEach((btn) => btn.addEventListener('click', () => selectTopic(btn)));
+    document.querySelector('.dial-dot[data-i="0"]').classList.add('on');
 
     render();
   </script>
+
+  <style>
+    /* ---- Tématárcsa ---- */
+    .dial-section{
+      margin:18px 0 24px; padding:10px 0 4px;
+      background:var(--paper-raised); border:1px solid var(--line); border-radius:20px;
+    }
+    .dial-stage{position:relative; width:600px; height:440px; margin:0 auto;}
+    .dial-box{position:absolute; left:150px; top:70px; width:300px; height:300px;}
+
+    .dial-dot{
+      position:absolute; width:10px; height:10px; margin:-5px 0 0 -5px; border-radius:50%;
+      opacity:.45; transition:opacity .3s, transform .3s;
+    }
+    .dial-dot.on{opacity:1; transform:scale(1.35);}
+
+    .dial{
+      position:absolute; left:13.333%; top:13.333%; width:73.333%; height:73.333%;
+      border-radius:50%; background:#2B2E2C;
+      box-shadow:0 10px 22px rgba(43,46,44,.28), inset 0 0 0 6px #3A3D3A;
+    }
+    html.dark .dial{background:#111210; box-shadow:0 10px 22px rgba(0,0,0,.5), inset 0 0 0 6px #2E302C;}
+    .dial-rotor{position:absolute; inset:0; transition:transform .6s cubic-bezier(.3,1.3,.5,1);}
+    .dial-notch{
+      position:absolute; left:50%; top:3%; width:5%; height:9%; margin-left:-2.5%;
+      border-radius:6px; background:#F2B477; box-shadow:0 0 10px #F2B477;
+      transition:background .3s, box-shadow .3s;
+    }
+    .dial-text{position:absolute; inset:0; width:100%; height:100%;}
+    .dial-text text{fill:#C9C6BB; font-family:'Inter',sans-serif; font-size:10px; font-weight:600; letter-spacing:2.4px;}
+
+    .dial-face{
+      position:absolute; left:30%; top:30%; width:40%; height:40%; border-radius:50%;
+      background:#FAF7F0; box-shadow:inset 0 2px 8px rgba(0,0,0,.18);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+    }
+    .dial-count{font-family:'Fraunces',serif; font-size:44px; font-weight:600; line-height:1; color:#54574F; transition:color .3s;}
+    .dial-unit{font-size:12px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:#54574F; margin-top:4px;}
+
+    .dial-topics{position:absolute; inset:0; pointer-events:none;}
+    .dial-topics .topic-pill{
+      position:absolute; left:var(--x); top:var(--y); transform:translate(-50%,-50%);
+      pointer-events:auto; display:flex; align-items:center; gap:8px;
+      min-height:44px; padding:6px 14px; border:1px solid transparent; border-radius:22px;
+      background:none; color:var(--ink-soft); font-family:inherit; font-size:15.5px; font-weight:500;
+      white-space:nowrap; cursor:pointer; transition:background .2s, color .2s;
+    }
+    .dial-topics .topic-pill:hover{background:var(--line); color:var(--ink);}
+    .dial-topics .topic-pill.active{background:var(--c); color:#FFFFFF; font-weight:600;}
+    .dial-topics .topic-pill:focus-visible{outline:2px solid var(--focus); outline-offset:2px;}
+    .pill-dot{width:10px; height:10px; border-radius:50%; background:var(--c); flex:none;}
+    .topic-pill.active .pill-dot{background:#FFFFFF;}
+
+    .dial-name{
+      display:none; text-align:center; margin:0; font-family:'Fraunces',serif;
+      font-size:22px; font-weight:600; color:var(--ink);
+    }
+
+    /* Mobilon: kisebb tárcsa, alatta oldalra húzható témasor */
+    @media (max-width:700px){
+      .dial-section{display:flex; flex-direction:column; align-items:center; gap:8px;}
+      .dial-stage{display:contents;}
+      .dial-box{order:0; position:relative; left:auto; top:auto; width:240px; height:240px;}
+      .dial-count{font-size:36px;}
+      .dial-unit{font-size:11px;}
+      .dial-topics{
+        position:static; order:2; width:100%; display:flex; flex-wrap:nowrap; gap:8px;
+        overflow-x:auto; padding:4px 16px 8px; scrollbar-width:none;
+      }
+      .dial-topics::-webkit-scrollbar{display:none;}
+      .dial-topics .topic-pill{
+        position:static; transform:none; flex:none;
+        border-color:var(--line); background:var(--paper);
+      }
+      .dial-topics .topic-pill.active{border-color:var(--c); background:var(--c);}
+      .dial-name{display:block; order:1; font-size:20px;}
+    }
+  </style>
 </Base>
