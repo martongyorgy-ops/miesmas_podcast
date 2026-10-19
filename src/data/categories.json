@@ -1,8 +1,8 @@
 {
   "oktatas": {
     "name": "Oktatás",
-    "color": "#8A5A20",
-    "bg": "#F0DCC0",
+    "color": "#66701F",
+    "bg": "#E6E9CF",
     "freq": "89.4"
   },
   "egeszseg": {
@@ -25,13 +25,13 @@
   },
   "kutatas": {
     "name": "Innováció / kutatás",
-    "color": "#2F6F62",
-    "bg": "#DCEAE5",
+    "color": "#1E5C8A",
+    "bg": "#DCE6F0",
     "freq": "101.3"
   },
   "altalanos": {
     "name": "MI általában",
-    "color": "#C97A2B",
+    "color": "#A3561A",
     "bg": "#F0DCC0",
     "freq": "104.7"
   },
