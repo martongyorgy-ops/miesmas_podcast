@@ -22,3 +22,4 @@ A `mi-es-mas-epizodok-v2.xlsx` alapján 73 sorból 12-nél van valódi, közvetl
 - várjunk, amíg mindegyikhez lesz valódi link.
 
 Emellett 8 feldolgozott epizódnak (Márton András, Eigner György, Flakstad Emőke, Forgács Mariann, Marosi Gergely, Turcsán Tamás, Németh Gábor) nincs sora az xlsx-ben — ezekhez majd külön kell Spotify-linket gyűjteni, ha eljutunk odáig.
+
