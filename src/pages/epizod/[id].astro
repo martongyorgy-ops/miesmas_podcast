@@ -40,7 +40,7 @@ function catName(key: string) {
     <section>
       <p class="eyebrow">Epizód</p>
       <div class="ep-meta">
-        {ep.data.cats.map((c: string) => <span class="badge">{catName(c)}</span>)}
+        {ep.data.cats.map((c: string) => <a class="badge" href={`/tudaster/?tema=${c}`} title="A téma fogalmai a TudásTérben">{catName(c)}</a>)}
       </div>
       <h1>{ep.data.guest}</h1>
       <p class="lead">{ep.data.role}</p>

@@ -224,12 +224,20 @@ const episodesData = episodes.map((e) => ({
     document.querySelector('.dial-dot[data-i="0"]').classList.add('on');
 
     render();
+
+    // Epizódoldali témacímkéről érkezve (?tema=kulcs) azonnal az adott téma nyíljon meg
+    const temaParam = new URLSearchParams(location.search).get('tema');
+    const temaBtn = temaParam && document.querySelector(`.topic-pill[data-cat="${CSS.escape(temaParam)}"]`);
+    if (temaBtn) {
+      selectTopic(temaBtn);
+      document.querySelector('.dial-section').scrollIntoView({ block: 'start' });
+    }
   </script>
 
   <style>
     /* ---- Tématárcsa ---- */
     .dial-section{
-      margin:18px 0 24px; padding:10px 0 4px;
+      margin:18px 0 24px; padding:10px 0 4px; scroll-margin-top:84px;
       background:var(--paper-raised); border:1px solid var(--line); border-radius:20px;
     }
     .dial-stage{position:relative; width:600px; height:440px; margin:0 auto;}

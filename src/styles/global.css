@@ -62,6 +62,7 @@ p{margin:0 0 16px;color:var(--ink-soft);}
 
 .ep-meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px;}
 .badge{font-size:13.5px;font-weight:600;background:var(--amber-soft);color:var(--amber);padding:4px 12px;border-radius:20px;text-decoration:none;}
+a.badge:hover{background:var(--amber);color:var(--paper);}
 .btn{display:inline-block;background:var(--ink);color:var(--paper);padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:600;font-size:16px;border:none;cursor:pointer;}
 .btn:hover{opacity:.88;}
 
