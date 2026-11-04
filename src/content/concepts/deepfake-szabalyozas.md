@@ -1,7 +1,7 @@
 ---
 id: "deepfake-szabalyozas"
 name: "Deepfake szabályozás és megtévesztés kockázata"
-cat: "jog"
+cat: ["jog", "biztonsag"]
 eps:
   - ep: "palkovics2"
     t: "16:55"

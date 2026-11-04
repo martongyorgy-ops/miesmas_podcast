@@ -2,7 +2,7 @@
 id: "szabo-bancsics"
 guest: "Szabó Kitti, Bancsics Ferenc"
 role: "Szabó Kitti: a Smartopert Kft. alapító-ügyvezetője, okosotthon-szakértő · Bancsics Ferenc: a Hírközlési és Informatikai Tudományos Egyesület (HTE) elnöke"
-cats: ["kutatas", "altalanos", "hosszu"]
+cats: ["kutatas", "altalanos", "biztonsag"]
 url: "https://www.youtube.com/watch?v=fktO1rTbQKk&list=PL45N3BwKew0MrUDwiW2QrFO9JCQJUppLy&index=1"
 spotify: "https://open.spotify.com/episode/0xwyeHYpxI8v8zPBWAd2fK?si=551b0bd89e2841d5"
 quote: "Az okos otthonoknál és az AI-használatnál is az a legnehezebb, hogy nem ússzuk meg a gondolkodást."

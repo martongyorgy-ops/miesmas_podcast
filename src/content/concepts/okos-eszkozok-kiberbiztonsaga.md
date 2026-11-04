@@ -1,7 +1,7 @@
 ---
 id: "okos-eszkozok-kiberbiztonsaga"
 name: "Okos eszközök kiberbiztonsága"
-cat: "hosszu"
+cat: "biztonsag"
 eps:
   - ep: "szabo-bancsics"
     t: "39:59"

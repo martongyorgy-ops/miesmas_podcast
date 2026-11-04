@@ -2,7 +2,7 @@
 id: "rambo"
 guest: "Csizmazia-Darab István (\"Rambo\")"
 role: "internetbiztonsági szakértő"
-cats: ["hosszu"]
+cats: ["biztonsag"]
 url: "https://www.youtube.com/watch?v=izuf0XO09Zw"
 quote: "Ezeket a bűnözői csapatokat, akik országokon átívelnek, profin, sokszor állami háttérrel üzemeltetik — Észak-Koreában konkrétan ebből fejlesztik az atomprogramot."
 concepts: ["kiberbunozes-ai"]

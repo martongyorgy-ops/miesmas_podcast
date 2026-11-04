@@ -1,7 +1,7 @@
 ---
 id: "adatbiztonsagi-jovahagyas"
 name: "Adatbiztonsági jóváhagyási folyamat AI-eszközöknél"
-cat: "altalanos"
+cat: ["altalanos", "biztonsag"]
 eps:
   - ep: "ignacz"
     t: "19:39"

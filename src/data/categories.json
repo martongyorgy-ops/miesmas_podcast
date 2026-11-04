@@ -35,10 +35,16 @@
     "bg": "#F0DCC0",
     "freq": "104.7"
   },
+  "biztonsag": {
+    "name": "Biztonság",
+    "color": "#8A6D0B",
+    "bg": "#F1E7C4",
+    "freq": "107.9"
+  },
   "hosszu": {
     "name": "Egyedi témák",
     "color": "#51605A",
     "bg": "#E3E0D6",
-    "freq": "107.9"
+    "freq": "111.2"
   }
 }

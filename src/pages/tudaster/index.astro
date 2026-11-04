@@ -41,7 +41,8 @@ const dialTopics = [
     i,
     angle: i * step,
     // címkék helye asztali nézetben (600×440 px-es terület, középpont: 300, 220)
-    x: Math.round(300 + Math.cos(rad) * 225),
+    // 9 témánál szélesebb vízszintes ív kell, különben alul összeérnek a címkék
+    x: Math.round(300 + Math.cos(rad) * 265),
     y: Math.round(220 + Math.sin(rad) * 183),
     // színes pontok a tárcsa körül (a 300×300-as tárcsadoboz %-ában)
     dx: (50 + Math.cos(rad) * 43).toFixed(2),
