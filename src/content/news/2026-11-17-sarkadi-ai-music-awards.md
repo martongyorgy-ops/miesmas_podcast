@@ -1,0 +1,5 @@
+---
+date: "2026-11-17"
+---
+
+Amíg mi a Bankrupt énekesével, [Sarkadi Balázzsal](https://www.miesmas.hu/epizod/sarkadi/) beszélgettünk a zenekar [Skynet](https://www.youtube.com/watch?v=6NLYrXwB8Jg&list=RD6NLYrXwB8Jg&start_radio=1) című új daláról, Los Angelesben megtartották az „[AI Music Awards](https://www.miesmas.hu/mi-merre/)” gáláját. A fő díjakat (az év MI-előadója, dala és albuma) Xania Monet, egy MI-generált avatár nyerte, akinek „[How Was I Supposed to Know?](https://www.youtube.com/watch?v=mUQCcfcpTek&list=RDmUQCcfcpTek&start_radio=1)” című dala elsőként jutott fel MI-alapú előadótól a Billboard egyik rádiós listájára. Alkotója, Telisha Jones szerint a dalszöveget ő írta, a zenét MI-vel készítette. A műfajt ugyanakkor perek és viták kísérik: a zenészek – ahogyan azt Sarkadi Balázs is mondta – attól tartanak, hogy az MI kiszorítja az embereket a szakmából. És…, akárhogyan is nézem a videó YouTube-oldalát, az ég világon semmi nem jelzi, hogy ez bizony egy AI-videó (AI-előadó) lenne.
